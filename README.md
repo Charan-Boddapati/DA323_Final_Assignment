@@ -1,134 +1,142 @@
-# 🎧 The Sound of Pixels — Paper Summary (ECCV 2018)
+# The Sound of Pixels — Paper Summary (ECCV 2018)
 
-Hi! This is a simple summary of the paper **"The Sound of Pixels"** by Hang Zhao and team (MIT, Columbia, etc). This paper is super cool because it shows how a machine can **listen to videos** and **understand which part of the image is making the sound** — and it learns all this **without any labels**! 🤯
+This is a short summary of the paper **"The Sound of Pixels"** by Hang Zhao and team from MIT and Columbia University, published at ECCV 2018.
 
----
-
-## 🔥 What’s the problem?
-
-In real life, we hear many sounds at once. Like when a violin and a flute play together — we can hear both and also **see** who is playing what.
-
-But machines don’t know how to do this naturally.
-
-👉 The main idea:  
-**Can a machine figure out which pixels in the video are making which sound?**
+The paper introduces **PixelPlayer**, a model that learns to separate and localize sounds in a video — by figuring out which **pixels are making which sound** — all without using labeled data.
 
 ---
 
-## 🧠 What is PixelPlayer?
+## What’s the problem?
 
-PixelPlayer is a neural network that takes:
-- 🎞️ A video
-- 🔊 The sound from that video
+In real life, when we watch a person playing guitar and someone else playing flute, we can easily tell who is playing what just by looking and listening.
 
-And then:
-- Splits the sound into parts (like violin and flute)
-- Finds **which part of the image (pixels)** made which sound
+But machines cannot do this naturally.
 
-### 🖼️ Suggested image:
-**Fig. 1 from the paper**  
-Add a screenshot showing input video, separated waveforms, and sound energy map.
+The main idea here is:  
+**Can a machine learn which part of the image is making which sound — without labels?**
 
 ---
 
-## 🏗️ How does it work?
+## What is PixelPlayer?
 
-PixelPlayer has 3 main parts:
+PixelPlayer is a system that:
+- Takes a video and its audio
+- Splits the audio into parts (for example, flute and violin)
+- Finds which part of the video (which pixels) are producing each sound
 
-1. 🎥 **Video network** – looks at frames and gets pixel features  
-2. 🎧 **Audio network** – processes the sound (as a spectrogram) and splits it into different sounds  
-3. 🛠️ **Audio synthesizer** – connects the video and audio features to decide which pixel made which sound
+This lets you listen to different parts of a video separately.
 
-It works on spectrograms (a picture of sound) instead of raw audio.
-
-### 🖼️ Suggested image:
-Add **Fig. 2** from the paper: architecture diagram
-
----
-
-## 🧪 How does it train? (Mix-and-Separate)
-
-This is clever.
-
-- Take 2 random videos: one of a flute, one of a violin
-- Mix their sounds together (like playing both at once)
-- Give each video frame to the model
-- Train the model to pull out each sound from the mix using the right video
-
-🎯 The model is **self-supervised** — no labels needed!
-
-### 🖼️ Suggested image:
-**Fig. 3** – Mix-and-Separate training pipeline
+### Suggested image:  
+Add a screenshot from the paper showing input video, separated waveforms, and energy maps (Fig. 1).
 
 ---
 
-## 🎵 MUSIC Dataset
+## How does it work?
 
-They made their own dataset called **MUSIC**:
-- 714 YouTube videos
-- 11 musical instruments (flute, guitar, trumpet, etc.)
-- Some solos, some duets
+PixelPlayer has three main parts:
 
-This was used for training and testing PixelPlayer.
+1. **Video analysis network** — extracts visual features for each pixel using a ResNet
+2. **Audio analysis network** — uses a U-Net to split the audio spectrogram into K components
+3. **Audio synthesizer** — combines visual and audio features to generate masks that extract specific sounds from the spectrogram
 
-### 🖼️ Suggested image:
-Add image grid of instruments (from **Fig. 4–5** in the paper)
+The final output is the separated audio signal for each visual region.
 
----
-
-## 📊 Results (Does it work?)
-
-Yes! The model works really well.
-
-- It **separates sounds** better than other baselines like NMF
-- It **localizes** the sound — shows which pixels are making sound
-- It even **learns specific instruments** in different channels!
-
-### 🎯 Best config:
-- Binary mask (just "yes/no" sound)  
-- Log-frequency scale (matches human hearing)
-
-### 🖼️ Suggested images:
-- Spectrogram before & after separation (Fig. 6)
-- Pixel sound energy heatmaps (Fig. 7)
-- Channel activation maps (Fig. 10)
+### Suggested image:  
+Architecture diagram (Fig. 2 from the paper)
 
 ---
 
-## 👂 Human tests (MTurk)
+## Mix-and-Separate Training
 
-They tested with real people:
-- “Which instrument do you hear?” — PixelPlayer’s results were better
-- “Is the sound coming from this pixel?” — again, it was accurate
+Training is done in a smart way:
 
-👍 People agreed: the model actually sounds good.
+- Take two random videos (for example, one with a trumpet and one with a violin)
+- Mix their audios together
+- Use the visuals from each video to help the model separate the sounds
 
----
+The model learns to solve the sound separation problem *using visual cues*, and it doesn’t need any labels. This is called **self-supervised learning**.
 
-## 💡 Cool stuff it can do
-
-- Let you **mute** or **change volume** of individual instruments in video
-- **Find where** sound is coming from, in pixels
-- Understand video better by linking sound + visuals
+### Suggested image:  
+Mix-and-Separate pipeline (Fig. 3)
 
 ---
 
-## 🧭 Conclusion
+## The MUSIC Dataset
 
-PixelPlayer is a fun idea that shows how vision and sound can help each other.
+To train PixelPlayer, the authors collected a new dataset called **MUSIC** (Multimodal Sources of Instrument Combinations):
 
-- No labels needed
-- Learns to separate + localize sound from video
-- Works surprisingly well
+- 714 videos from YouTube
+- 11 musical instruments
+- Includes both solos and duets
 
-### 🎬 Demo & Code
+The dataset includes instruments like flute, violin, cello, guitar, trumpet, and more.
 
-The original project is at:  
-🔗 [sound-of-pixels.csail.mit.edu](http://sound-of-pixels.csail.mit.edu)
+### Suggested image:  
+Category distribution and sample frames (Fig. 4 and Fig. 5)
 
 ---
 
-## 📚 Citation
+## Results and Observations
+
+- The model works well for separating and localizing sounds
+- Best results came from using **binary masks** and **log-scale spectrograms**
+- It beats audio-only baselines like NMF and DeepConvSep
+
+The model also learns to activate specific channels for different instruments. For example, one channel might respond only to violins, another to guitars.
+
+### Suggested images:  
+- Spectrogram outputs before and after separation (Fig. 6)  
+- Heatmaps showing pixel-level sound energy (Fig. 7)  
+- Sound clustering and channel visualizations (Fig. 8–10)
+
+---
+
+## Human Evaluation
+
+They also tested how good the model sounds to real people (on Amazon Mechanical Turk):
+
+1. **Sound separation** — People were asked what instrument they heard. The binary mask model had the highest accuracy.
+2. **Visual-sound matching** — People were asked: "Is this sound coming from this pixel?" The model did well here too.
+
+---
+
+## Applications
+
+Some cool things you can do with PixelPlayer:
+
+- Adjust the volume of specific instruments in a video
+- Remove background or isolate a sound source
+- Understand which object is making sound in video scenes
+
+---
+
+## YouTube Explanation Video
+
+I also made a short explanation video for this paper. You can watch it here:
+
+**[▶️ Watch on YouTube]([https://www.youtube.com/watch?v=YOUR_VIDEO_LINK](https://youtu.be/yKmhQB4742M))**  
+*(Replace the link with your actual video)*
+
+---
+
+## Conclusion
+
+- PixelPlayer is a system that links sound and vision without labels
+- It learns to separate and localize audio sources in videos
+- It works using only unlabeled video and audio — very scalable and powerful
+
+The paper opens up new ideas in audio-visual learning and self-supervised training.
+
+---
+
+## Project Link
+
+Original project page:  
+[http://sound-of-pixels.csail.mit.edu](http://sound-of-pixels.csail.mit.edu)
+
+---
+
+## Citation
 
 ```bibtex
 @inproceedings{zhao2018sound,
