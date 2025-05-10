@@ -6,7 +6,7 @@ The paper introduces **PixelPlayer**, a model that learns to separate and locali
 
 ---
 
-## What’s the problem?
+## Introduction
 
 In real life, when we watch a person playing guitar and someone else playing flute, we can easily tell who is playing what just by looking and listening.
 
@@ -17,7 +17,7 @@ The main idea here is:
 
 ---
 
-## What is PixelPlayer?
+## PixelPlayer System
 
 PixelPlayer is a system that:
 - Takes a video and its audio
@@ -26,27 +26,23 @@ PixelPlayer is a system that:
 
 This lets you listen to different parts of a video separately.
 
-### Suggested image:  
-Add a screenshot from the paper showing input video, separated waveforms, and energy maps (Fig. 1).
-
 ---
 
-## How does it work?
+## How It Works
 
 PixelPlayer has three main parts:
 
-1. **Video analysis network** — extracts visual features for each pixel using a ResNet
-2. **Audio analysis network** — uses a U-Net to split the audio spectrogram into K components
+1. **Video analysis network** — extracts visual features for each pixel using a ResNet  
+2. **Audio analysis network** — uses a U-Net to split the audio spectrogram into K components  
 3. **Audio synthesizer** — combines visual and audio features to generate masks that extract specific sounds from the spectrogram
 
 The final output is the separated audio signal for each visual region.
-
 
 ![Architecture diagram](/img/fig2.jpeg)
 
 ---
 
-## Mix-and-Separate Training
+## Training Method
 
 Training is done in a smart way:
 
@@ -57,9 +53,10 @@ Training is done in a smart way:
 The model learns to solve the sound separation problem *using visual cues*, and it doesn’t need any labels. This is called **self-supervised learning**.
 
 ![Mix-and-Separate pipeline](/img/fig3.jpeg)
+
 ---
 
-## The MUSIC Dataset
+## MUSIC Dataset
 
 To train PixelPlayer, the authors collected a new dataset called **MUSIC** (Multimodal Sources of Instrument Combinations):
 
@@ -69,45 +66,47 @@ To train PixelPlayer, the authors collected a new dataset called **MUSIC** (Mult
 
 The dataset includes instruments like flute, violin, cello, guitar, trumpet, and more.
 
-Category distribution and sample frames
-![Architecture diagram](/img/fig4.jpeg)
-![Architecture diagram](/img/fig5.jpeg)
+![Category distribution and sample frames](/img/fig4.jpeg)
+![Category distribution and sample frames](/img/fig5.jpeg)
 
 ---
 
-## Results and Observations
+## Results
 
-- The model works well for separating and localizing sounds
-- Best results came from using **binary masks** and **log-scale spectrograms**
+- The model works well for separating and localizing sounds  
+- Best results came from using **binary masks** and **log-scale spectrograms**  
 - It beats audio-only baselines like NMF and DeepConvSep
 
 The model also learns to activate specific channels for different instruments. For example, one channel might respond only to violins, another to guitars.
 
-### Suggested images:  
-  ![Spectrogram outputs before and after separation](/img/fig6.jpeg)
-  ![Heatmaps showing pixel-level sound energy](/img/fig7.jpeg)
-  !Sound clustering and channel visualizations](/img/fig8.jpeg)
-  !Sound clustering and channel visualizations](/img/fig9.jpeg)
-  !Sound clustering and channel visualizations](/img/fig10.jpeg)
+![Spectrogram outputs before and after separation](/img/fig6.jpeg)  
+![Heatmaps showing pixel-level sound energy](/img/fig7.jpeg)  
+![Sound clustering](/img/fig8.jpeg)  
+![Confusion matrices for instrument detection](/img/fig9.jpeg)  
+![Channel-specific activations](/img/fig10.jpeg)
 
 ---
 
 ## Human Evaluation
 
-They also tested how good the model sounds to real people (on Amazon Mechanical Turk):
+The authors also tested the model with real people on Amazon Mechanical Turk:
 
 1. **Sound separation** — People were asked what instrument they heard. The binary mask model had the highest accuracy.
 2. **Visual-sound matching** — People were asked: "Is this sound coming from this pixel?" The model did well here too.
+
+This shows the model doesn’t just work in theory — people actually hear the difference.
 
 ---
 
 ## Applications
 
-Some cool things you can do with PixelPlayer:
+Some cool things this system can do:
 
-- Adjust the volume of specific instruments in a video
-- Remove background or isolate a sound source
+- Adjust the volume of specific instruments in a video  
+- Remove background or isolate a sound source  
 - Understand which object is making sound in video scenes
+
+This has use in video editing, accessibility, smart audio mixing, and more.
 
 ---
 
@@ -117,16 +116,15 @@ I also made a short explanation video for this paper. You can watch it here:
 
 **[Watch the explanation video on YouTube](https://youtu.be/yKmhQB4742M)**
 
-
 ---
 
 ## Conclusion
 
-- PixelPlayer is a system that links sound and vision without labels
-- It learns to separate and localize audio sources in videos
-- It works using only unlabeled video and audio — very scalable and powerful
+- PixelPlayer links sound and vision without any manual labels  
+- It separates and localizes sounds in video using self-supervised learning  
+- It shows strong results on the MUSIC dataset and works well even for humans  
 
-The paper opens up new ideas in audio-visual learning and self-supervised training.
+This paper gives new direction in how sound and vision can help each other in AI.
 
 ---
 
