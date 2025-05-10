@@ -41,8 +41,8 @@ PixelPlayer has three main parts:
 
 The final output is the separated audio signal for each visual region.
 
-### Suggested image:  
-Architecture diagram (Fig. 2 from the paper)
+
+![Architecture diagram](img/fig2.png)
 
 ---
 
