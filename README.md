@@ -115,7 +115,8 @@ Some cool things you can do with PixelPlayer:
 
 I also made a short explanation video for this paper. You can watch it here:
 
-**[▶️ Watch on YouTube]([https://www.youtube.com/watch?v=YOUR_VIDEO_LINK](https://youtu.be/yKmhQB4742M))**
+**[Watch the explanation video on YouTube](https://youtu.be/yKmhQB4742M)**
+
 
 ---
 
