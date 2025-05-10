@@ -69,8 +69,9 @@ To train PixelPlayer, the authors collected a new dataset called **MUSIC** (Mult
 
 The dataset includes instruments like flute, violin, cello, guitar, trumpet, and more.
 
-### Suggested image:  
-Category distribution and sample frames (Fig. 4 and Fig. 5)
+Category distribution and sample frames
+![Architecture diagram](/img/fig4.jpeg)
+![Architecture diagram](/img/fig5.jpeg)
 
 ---
 
@@ -83,9 +84,11 @@ Category distribution and sample frames (Fig. 4 and Fig. 5)
 The model also learns to activate specific channels for different instruments. For example, one channel might respond only to violins, another to guitars.
 
 ### Suggested images:  
-- Spectrogram outputs before and after separation (Fig. 6)  
-- Heatmaps showing pixel-level sound energy (Fig. 7)  
-- Sound clustering and channel visualizations (Fig. 8–10)
+  ![Spectrogram outputs before and after separation](/img/fig6.jpeg)
+  ![Heatmaps showing pixel-level sound energy](/img/fig7.jpeg)
+  !Sound clustering and channel visualizations](/img/fig8.jpeg)
+  !Sound clustering and channel visualizations](/img/fig9.jpeg)
+  !Sound clustering and channel visualizations](/img/fig10.jpeg)
 
 ---
 
