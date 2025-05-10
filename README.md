@@ -56,9 +56,7 @@ Training is done in a smart way:
 
 The model learns to solve the sound separation problem *using visual cues*, and it doesn’t need any labels. This is called **self-supervised learning**.
 
-### Suggested image:  
-Mix-and-Separate pipeline (Fig. 3)
-
+![Mix-and-Separate pipeline](/img/fig3.jpeg)
 ---
 
 ## The MUSIC Dataset
